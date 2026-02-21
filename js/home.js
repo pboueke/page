@@ -128,7 +128,7 @@
           }, 900);
         }
 
-        pulseTimer = setInterval(pulseGroup, 50);
+        pulseTimer = setInterval(pulseGroup, 100);
         pulseGroup();
 
         // --- Hover bookkeeping ---
