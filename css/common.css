@@ -6,15 +6,6 @@
   --color-link-hover: #555555;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #111111;
-    --color-text: #eeeeee;
-    --color-text-muted: #999999;
-    --color-link: #eeeeee;
-    --color-link-hover: #999999;
-  }
-}
 
 *,
 *::before,
@@ -51,6 +42,9 @@ h1 {
 footer {
   position: absolute;
   bottom: 2rem;
+  left: 0;
+  right: 0;
+  text-align: center;
   color: var(--color-text-muted);
   font-size: 0.875rem;
 }

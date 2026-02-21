@@ -24,7 +24,10 @@
 
         var vb = svg.viewBox.baseVal;
         var centerX = vb.x + vb.width / 2;
-        var centerY = vb.y + vb.height / 2;
+        // Adjust this value to shift the radial opacity center upward (negative) or downward (positive).
+        // The unit is a fraction of the SVG height. Examples: -0.1 = 10% up, -0.2 = 20% up, 0 = true center.
+        var RADIAL_CENTER_Y_OFFSET = -0.05;
+        var centerY = vb.y + vb.height / 2 + vb.height * RADIAL_CENTER_Y_OFFSET;
         var maxDist = Math.min(vb.width, vb.height) / 2;
 
         // --- Precompute HSL(h, 90%, 55%) look-up (avoids per-frame trig) ---
@@ -66,7 +69,7 @@
           if (pn === 0) continue;
           var cx = sx / pn, cy = sy / pn;
           var dx = cx - centerX, dy = cy - centerY;
-          var base = Math.min(Math.sqrt(dx * dx + dy * dy) * 1.3 / maxDist, 1);
+          var base = Math.min(Math.sqrt(dx * dx + dy * dy) * 1.25 / maxDist, 1);
           poly.style.opacity = base;
           var fill = poly.style.fill;
           var m = fill.match(/(\d+)/g);
