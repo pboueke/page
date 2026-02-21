@@ -17,9 +17,19 @@
 </head>
 <body>
   <header>
-    <div class="avatar" role="img" aria-label="Pedro Boueke">
-      <img src="img/me.jpeg" alt="" class="avatar-photo">
-      <div class="avatar-overlay" data-src="img/low_poly_me.svg"></div>
+    <div class="avatar-wrap">
+      <svg class="avatar-arc-text" viewBox="0 -30 320 380" aria-hidden="true">
+        <defs>
+          <path id="arc" d="M 0,190 A 160,160 0 0 1 320,190" fill="none"/>
+        </defs>
+        <!--<text>
+          <textPath href="#arc" startOffset="50%" text-anchor="middle">Seeing Through The Noise</textPath>
+        </text>-->
+      </svg>
+      <div class="avatar" role="img" aria-label="Pedro Boueke">
+        <img src="img/me.jpeg" alt="" class="avatar-photo">
+        <div class="avatar-overlay" data-src="img/low_poly_me.svg"></div>
+      </div>
     </div>
     <h1>Pedro Boueke</h1>
     <p class="tagline">Software Engineer & Consultant</p>
@@ -38,6 +48,12 @@
         </svg>
       </a>
     </nav>
+
+    <section class="highlights">
+      <h2>Highlights</h2>
+      <ul class="highlight-list">
+      </ul>
+    </section>
   </main>
 
   <footer>
