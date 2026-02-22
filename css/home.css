@@ -27,6 +27,7 @@
   height: 260px;
   border-radius: 50%;
   overflow: hidden;
+  cursor: none;
   border: 8px solid #b0aba3;
   outline: 10px solid #d2cec7;
   outline-offset: -1px;
