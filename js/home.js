@@ -75,7 +75,7 @@
 
           var cx = sx / pn, cy = sy / pn;
           var dx = cx - centerX, dy = cy - centerY;
-          var base = Math.min(Math.sqrt(dx * dx + dy * dy) * 1.35 / maxDist, 1);
+          var base = Math.min(Math.sqrt(dx * dx + dy * dy) * 1.27 / maxDist, 1);
           var fill = poly.style.fill;
           var m    = fill.match(/(\d+)/g);
 
