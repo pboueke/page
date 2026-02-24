@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>★~*~ Fourier's Page ~*~★ Best Dog Ever!!!</title>
+  <style>
+    /* ============================================================
+       BASE & BACKGROUND — dark starfield + noise texture
+    ============================================================ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #03051a;
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E"),
+        radial-gradient(circle, rgba(255,255,255,0.14) 1px, transparent 1px),
+        radial-gradient(circle, rgba(200,210,255,0.08) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 200px 200px, 55px 55px, 130px 130px, 90px 90px;
+      background-position: 0 0, 0 0, 28px 28px, 14px 42px;
+      color: #ccffcc;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    .page-wrapper {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 12px 40px;
+    }
+
+    /* ============================================================
+       LANGUAGE TOGGLE
+    ============================================================ */
+    body.lang-en .t-pt { display: none !important; }
+    body.lang-pt .t-en { display: none !important; }
+
+    .lang-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      padding: 6px 10px;
+      background: #00001a;
+      border-bottom: 1px solid #1a1a33;
+      margin-bottom: 0;
+    }
+    .lang-bar .lang-label {
+      color: #555;
+      font-size: 0.78em;
+      margin-right: 2px;
+      letter-spacing: 1px;
+    }
+    .lang-btn {
+      background: #0a0a22;
+      border: 2px outset #444;
+      color: #aaaaaa;
+      font-size: 1.1em;
+      padding: 2px 10px 2px 6px;
+      cursor: pointer;
+      font-family: 'Comic Sans MS', cursive;
+      letter-spacing: 1px;
+      transition: background 0.1s;
+    }
+    .lang-btn:hover  { background: #111133; border-color: #888; color: #ffffff; }
+    .lang-btn.active { border: 2px inset #ffff00; background: #1a1100; color: #ffff00; }
+
+    /* ============================================================
+       KEYFRAME ANIMATIONS
+    ============================================================ */
+    @keyframes blink      { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+    @keyframes spin       { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes spin-rev   { from{transform:rotate(0deg)} to{transform:rotate(-360deg)} }
+    @keyframes pulse      { 0%,100%{transform:scale(1)} 50%{transform:scale(1.45)} }
+    @keyframes bounce     { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+    @keyframes float      { 0%,100%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-11px) rotate(4deg)} }
+    @keyframes neon-flicker {
+      0%,19%,21%,23%,25%,54%,56%,100% {
+        text-shadow: 0 0 6px #fff, 0 0 14px #fff, 0 0 28px #ff00ff, 0 0 50px #ff00ff;
+        opacity: 1;
+      }
+      20%,24%,55% { text-shadow: none; opacity: 0.7; }
+    }
+    @keyframes rainbow-cycle {
+      0%   { color: #ff4444; }
+      14%  { color: #ff9900; }
+      28%  { color: #ffff00; }
+      42%  { color: #44ff44; }
+      57%  { color: #00ffff; }
+      71%  { color: #4488ff; }
+      85%  { color: #ff44ff; }
+      100% { color: #ff4444; }
+    }
+    @keyframes bar-slide {
+      from { background-position: 0 0; }
+      to   { background-position: 60px 0; }
+    }
+
+    /* ============================================================
+       UTILITY CLASSES
+    ============================================================ */
+    .blink         { animation: blink 1s step-end infinite; }
+    .spin          { display:inline-block; animation: spin 2.5s linear infinite; }
+    .spin-rev      { display:inline-block; animation: spin-rev 3s linear infinite; }
+    .pulse         { display:inline-block; animation: pulse 0.85s ease-in-out infinite; }
+    .bounce        { display:inline-block; animation: bounce 1.1s ease-in-out infinite; }
+    .float         { display:inline-block; animation: float 2.8s ease-in-out infinite; }
+    .rainbow-text  { animation: rainbow-cycle 3s linear infinite; font-weight: bold; }
+    .neon-title    { animation: neon-flicker 4s linear infinite; }
+
+    /* ============================================================
+       MARQUEE
+    ============================================================ */
+    marquee {
+      background: linear-gradient(90deg, #1a003a, #000066, #1a003a);
+      border-top: 3px solid #ff00ff;
+      border-bottom: 3px solid #00ffff;
+      padding: 7px 0;
+      color: #ffff00;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    /* ============================================================
+       ANIMATED RAINBOW DIVIDER BAR
+    ============================================================ */
+    .rainbow-bar {
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        #ff0000 0px,  #ff0000 10px,
+        #ff7700 10px, #ff7700 20px,
+        #ffff00 20px, #ffff00 30px,
+        #00ff00 30px, #00ff00 40px,
+        #00ffff 40px, #00ffff 50px,
+        #ff00ff 50px, #ff00ff 60px
+      );
+      background-size: 60px 6px;
+      animation: bar-slide 1s linear infinite;
+      border: none;
+      margin: 14px 0;
+    }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    .site-header {
+      text-align: center;
+      padding: 22px 16px 18px;
+      border: 5px double #ff00ff;
+      background: linear-gradient(180deg, #200040 0%, #000055 60%, #03051a 100%);
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-corner { position: absolute; font-size: 2.2em; line-height: 1; }
+    .header-corner.tl { top: 8px;    left: 10px;  }
+    .header-corner.tr { top: 8px;    right: 10px; }
+    .header-corner.bl { bottom: 8px; left: 10px;  }
+    .header-corner.br { bottom: 8px; right: 10px; }
+
+    .site-title {
+      font-family: Impact, 'Arial Black', sans-serif;
+      font-size: clamp(1.8em, 7vw, 3.2em);
+      color: #ffffff;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .site-subtitle { color: #00ffff; font-size: 1.1em; margin-bottom: 10px; font-style: italic; }
+
+    /* VISITOR COUNTER */
+    .counter-area  { margin: 12px auto 0; display: inline-block; }
+    .counter-label { color: #888; font-size: 0.8em; display: block; margin-bottom: 3px; }
+    .counter-digits {
+      display: inline-block;
+      background: #000;
+      border: 3px inset #666;
+      padding: 4px 14px;
+      color: #ff4400;
+      font-family: 'Courier New', monospace;
+      font-size: 1.5em;
+      font-weight: bold;
+      letter-spacing: 5px;
+    }
+
+    /* ============================================================
+       DECORATIVE ROWS
+    ============================================================ */
+    .deco-row {
+      text-align: center;
+      padding: 6px 0;
+      letter-spacing: 6px;
+      font-size: 1.3em;
+      line-height: 2;
+    }
+
+    /* ============================================================
+       GIF-LIKE DECORATION ROW
+    ============================================================ */
+    .gif-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 10px 0 6px;
+    }
+    .gif-row span { font-size: 2.2em; line-height: 1; }
+    .gif-img {
+      width: 60px;
+      height: 60px;
+      image-rendering: pixelated;
+      border: 2px solid transparent;
+    }
+
+    /* ============================================================
+       SECTIONS
+    ============================================================ */
+    .dog-section { margin: 18px 0; border: 4px outset #888; background: rgba(0,0,0,0.52); }
+    .section-rescue     { border-color: #ff55aa; }
+    .section-adaptation { border-color: #00ffcc; }
+    .section-health     { border-color: #ffaa00; }
+    .section-current    { border-color: #33aaff; }
+
+    .section-header-bar {
+      padding: 10px 18px;
+      font-family: Impact, 'Arial Black', sans-serif;
+      font-size: 1.45em;
+      letter-spacing: 2px;
+      color: #000000;
+      text-align: center;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+      cursor: default;
+    }
+    .section-rescue     .section-header-bar { background: linear-gradient(90deg, #cc0066, #ff55aa, #cc0066); }
+    .section-adaptation .section-header-bar { background: linear-gradient(90deg, #009966, #00ffcc, #009966); }
+    .section-health     .section-header-bar { background: linear-gradient(90deg, #cc6600, #ffaa00, #cc6600); }
+    .section-current    .section-header-bar { background: linear-gradient(90deg, #0055aa, #33aaff, #0055aa); }
+
+    .section-body { padding: 16px 18px; }
+
+    /* ============================================================
+       IMAGE PLACEHOLDER
+    ============================================================ */
+    .photo-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 560px;
+      min-height: 340px;
+      margin: 6px auto 18px;
+      border: 5px ridge #555;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(255,255,255,0.025) 0px,
+          rgba(255,255,255,0.025) 2px,
+          transparent 2px,
+          transparent 14px
+        ),
+        #0a0a22;
+      color: #444;
+      text-align: center;
+      padding: 20px;
+      gap: 8px;
+    }
+    .photo-slot .photo-icon  { font-size: 3.5em; }
+    .photo-slot .photo-label { font-size: 1em; font-weight: bold; }
+    .photo-slot .photo-hint  { font-size: 0.8em; color: #333; }
+    .section-rescue     .photo-slot .photo-label { color: #ff55aa; }
+    .section-adaptation .photo-slot .photo-label { color: #00ffcc; }
+    .section-health     .photo-slot .photo-label { color: #ffaa00; }
+    .section-current    .photo-slot .photo-label { color: #33aaff; }
+    .photo-slot img { width: 100%; max-height: 440px; object-fit: cover; display: block; }
+
+    /* ============================================================
+       PARAGRAPHS
+    ============================================================ */
+    .section-body p {
+      color: #d0ffd0;
+      line-height: 1.78;
+      font-size: 1em;
+      margin: 12px 0;
+      padding-left: 14px;
+      border-left: 3px solid;
+    }
+    .section-rescue     .section-body p { border-color: #ff55aa; }
+    .section-adaptation .section-body p { border-color: #00ffcc; }
+    .section-health     .section-body p { border-color: #ffaa00; }
+    .section-current    .section-body p { border-color: #33aaff; }
+    .section-body p em     { color: #ffff88; font-style: italic; }
+    .section-body p strong { color: #ffff00; }
+
+    /* ============================================================
+       BADGES & CALLOUTS
+    ============================================================ */
+    .new-badge {
+      display: inline-block;
+      background: #ff0000;
+      color: #ffff00;
+      font-size: 0.72em;
+      font-weight: bold;
+      padding: 1px 6px;
+      vertical-align: middle;
+      margin-left: 4px;
+      animation: blink 0.75s step-end infinite;
+    }
+    .callout-box {
+      border: 2px dashed #ff00ff;
+      background: rgba(255,0,255,0.07);
+      padding: 10px 14px;
+      margin: 14px 0;
+      color: #ff88ff;
+      font-size: 0.95em;
+      text-align: center;
+    }
+    .under-construction {
+      background: repeating-linear-gradient(
+        45deg,
+        #111 0px, #111 12px,
+        #ffbb00 12px, #ffbb00 24px
+      );
+      color: #000;
+      font-weight: bold;
+      font-size: 0.85em;
+      text-align: center;
+      padding: 7px 12px;
+      margin: 14px 0 4px;
+      letter-spacing: 1px;
+    }
+
+    /* ============================================================
+       GUESTBOOK
+    ============================================================ */
+    .guestbook-box {
+      border: 3px double #ff00ff;
+      background: rgba(255,0,255,0.06);
+      padding: 16px;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .guestbook-box h3 { color: #ff88ff; font-size: 1.2em; margin-bottom: 8px; }
+    .guestbook-box p  { color: #aaaaaa; font-size: 0.9em; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .site-footer {
+      text-align: center;
+      padding: 18px 10px;
+      border-top: 2px solid #222;
+      margin-top: 24px;
+      color: #666;
+      font-size: 0.83em;
+    }
+    .footer-badges { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+    .badge { border: 2px outset #555; background: #111; padding: 3px 9px; font-size: 0.82em; font-weight: bold; white-space: nowrap; }
+    .site-footer a { color: #00ffff; text-decoration: none; }
+    .site-footer a:hover { text-decoration: underline; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 520px) {
+      .site-title   { letter-spacing: 2px; }
+      .photo-slot   { min-height: 220px; }
+      .gif-row span { font-size: 1.7em; }
+    }
+  </style>
+</head>
+<!-- Default to English; the inline script below updates this immediately from the URL param -->
+<body class="lang-en">
+<script>
+  /* Run before first paint — prevents any language flash */
+  (function () {
+    var l = new URLSearchParams(location.search).get('lang');
+    if (l === 'pt') { document.body.className = 'lang-pt'; document.documentElement.lang = 'pt-BR'; }
+  }());
+</script>
+
+<div class="page-wrapper">
+
+  <!-- ═══ LANGUAGE SELECTOR ═══ -->
+  <div class="lang-bar">
+    <span class="lang-label t-en">Language:</span>
+    <span class="lang-label t-pt">Idioma:</span>
+    <button class="lang-btn" id="flag-en" onclick="setLang('en')" title="English">🇬🇧 EN</button>
+    <button class="lang-btn" id="flag-pt" onclick="setLang('pt')" title="Português (Brasil)">🇧🇷 PT</button>
+  </div>
+
+  <!-- ═══ TOP MARQUEE ═══ -->
+  <marquee class="t-en" behavior="scroll" direction="left" scrollamount="4">
+    ★ WELCOME TO FOURIER'S OFFICIAL HOMEPAGE ★
+    &nbsp;&nbsp;🐾 THE BEST DOG IN THE ENTIRE WORLD 🐾&nbsp;&nbsp;
+    ★ LAST UPDATED: [DATE] ★&nbsp;&nbsp;
+    🦴 WUF WUF WUF 🦴&nbsp;&nbsp;
+    ★ SIGN THE GUESTBOOK BELOW!! ★
+  </marquee>
+  <marquee class="t-pt" behavior="scroll" direction="left" scrollamount="4">
+    ★ BEM-VINDO À PÁGINA OFICIAL DO FOURIER ★
+    &nbsp;&nbsp;🐾 O MELHOR CÃO DO MUNDO INTEIRO 🐾&nbsp;&nbsp;
+    ★ ÚLTIMA ATUALIZAÇÃO: [DATA] ★&nbsp;&nbsp;
+    🦴 AUF AUF AUF 🦴&nbsp;&nbsp;
+    ★ ASSINE O LIVRO DE VISITAS!! ★
+  </marquee>
+
+  <!-- ═══ SITE HEADER ═══ -->
+  <div class="site-header">
+    <span class="header-corner tl"><span class="spin">⭐</span></span>
+    <span class="header-corner tr"><span class="spin-rev">⭐</span></span>
+    <span class="header-corner bl"><span class="bounce">🐾</span></span>
+    <span class="header-corner br"><span class="bounce">🐾</span></span>
+
+    <h1 class="site-title neon-title">★ Fourier's Page ★</h1>
+
+    <p class="site-subtitle">
+      <span class="t-en">🐶 From the Streets to My Heart — The Full Story 🐶</span>
+      <span class="t-pt">🐶 Das Ruas ao Meu Coração — A História Completa 🐶</span>
+    </p>
+    <p style="color:#ff88ff; margin-bottom:10px;">
+      <span class="pulse">❤️</span>
+      &nbsp;<span class="rainbow-text t-en">WORLD'S GREATEST DOG</span>
+      <span class="rainbow-text t-pt">O MELHOR CÃO DO MUNDO</span>&nbsp;
+      <span class="pulse">❤️</span>
+    </p>
+    <p style="color:#ffff00; font-size:0.9em;">
+      <span class="blink t-en">✨ PAGE UPDATED WITH NEW PHOTOS!! ✨</span>
+      <span class="blink t-pt">✨ PÁGINA ATUALIZADA COM NOVAS FOTOS!! ✨</span>
+    </p>
+
+    <div class="counter-area">
+      <span class="counter-label t-en">you are visitor number</span>
+      <span class="counter-label t-pt">você é o visitante número</span>
+      <span class="counter-digits">0 0 0 0 0 1</span>
+    </div>
+  </div>
+
+  <!-- ═══ DECO ROW ═══ -->
+  <div class="deco-row" style="color:#ffff00;">
+    <span class="bounce">🐾</span><span class="spin">★</span><span class="float">🦴</span>
+    <span class="spin-rev">✦</span><span class="bounce">🐶</span><span class="spin">★</span>
+    <span class="float">🦴</span><span class="spin-rev">✦</span><span class="bounce">🐾</span>
+    <span class="spin">★</span><span class="float">🦴</span><span class="spin-rev">✦</span>
+    <span class="bounce">🐶</span>
+  </div>
+
+  <hr class="rainbow-bar">
+
+  <!-- ═══ INTRO ═══ -->
+  <div style="text-align:center; padding:14px 10px; border:2px solid #333; background:rgba(0,0,80,0.4); margin-bottom:6px;">
+    <p style="color:#00ffff; font-size:1.1em; margin-bottom:8px;">
+      <span class="rainbow-text t-en">❝ WELCOME, DEAR VISITOR! ❞</span>
+      <span class="rainbow-text t-pt">❝ BEM-VINDO, CARO VISITANTE! ❞</span>
+    </p>
+    <p class="t-en" style="color:#aaddff; line-height:1.7; font-size:0.95em;">
+      You have found the official homepage of <strong style="color:#ffff00;">Fourier</strong>,
+      a very good dog.<br>
+      Scroll down to read the full story — from rescue to right now. 🐾<br>
+      <span style="color:#888; font-size:0.9em;">Grab a treat and get comfortable.</span>
+    </p>
+    <p class="t-pt" style="color:#aaddff; line-height:1.7; font-size:0.95em;">
+      Você encontrou a página oficial de <strong style="color:#ffff00;">Fourier</strong>,
+      um cachorro muito bom.<br>
+      Role para baixo para ler a história completa — desde o resgate até hoje. 🐾<br>
+      <span style="color:#888; font-size:0.9em;">Pegue um petisco e fique à vontade.</span>
+    </p>
+  </div>
+
+  <hr class="rainbow-bar">
+
+
+  <!-- ════════════════════════════════════════════
+       CHAPTER 1 — THE RESCUE
+  ════════════════════════════════════════════ -->
+  <div class="dog-section section-rescue">
+    <div class="section-header-bar">
+      🐕 &nbsp;
+      <span class="t-en">CHAPTER I &nbsp;·&nbsp; THE RESCUE</span>
+      <span class="t-pt">CAPÍTULO I &nbsp;·&nbsp; O RESGATE</span>
+      &nbsp; 🐕
+    </div>
+    <div class="section-body">
+
+      <div class="gif-row">
+        <img src="https://www.cameronsworld.net/img/content/3/11.gif" class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/6/16.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/8/10.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/6/11.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/11/25.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/2/16.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/8/5.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/1/16.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+      </div>
+
+      <!-- LARGE PHOTO SLOT -->
+      <div class="photo-slot">
+        <div class="photo-icon">📸</div>
+        <div class="photo-label">
+          <span class="t-en">[ ADD RESCUE PHOTO HERE ]</span>
+          <span class="t-pt">[ ADICIONE A FOTO DO RESGATE AQUI ]</span>
+        </div>
+        <div class="photo-hint">
+          <span class="t-en">Replace this div with: &lt;img src="your-photo.jpg" alt="rescue day"&gt;</span>
+          <span class="t-pt">Substitua este div por: &lt;img src="sua-foto.jpg" alt="dia do resgate"&gt;</span>
+        </div>
+        <div class="photo-hint" style="margin-top:4px;">
+          <span class="t-en">Recommended: landscape, ~800×500 px</span>
+          <span class="t-pt">Recomendado: paisagem, ~800×500 px</span>
+        </div>
+      </div>
+
+      <p class="t-en">
+        It was a <em>hot</em> day in <em>2024</em> when
+        <strong>Fourier</strong> first came into our lives.
+        Found wandering near the <em>Gericinó Prison Complex ⛓</em>, worn out, patchy, covered in
+        bruises and barely any fur (but full of charm), this lost little soul caught everyone's eye
+        immediately. My girlfriend ♡ took him in and with great effort carried him to her
+        grandmother's house, where he spent the night.
+      </p>
+      <p class="t-pt">
+        Foi num dia <em>quente</em> em <em>2024</em> quando
+        <strong>Fourier</strong> apareceu pela primeira vez em nossas vidas.
+        Encontrado vagando perto do <em>Complexo Penitenciário de Gericinó ⛓</em>, acabado, depenado, cheio de hematoma e com pouco pelo (mas cheio de graça),
+        essa alminha perdida chamou a atenção de todo mundo na hora.
+        Minha namorada ♡ o acolheu e com esforço o levou pra casa da avó, onde ele passou a noite.
+      </p>
+
+      <p class="t-en">
+        I got a tearful phone call where she described her heartbreak over the little dog she had found.
+        Right then and there I said I wanted to adopt him — on <em>October 16th, 2024</em>, if I'm
+        not mistaken. She took him to the vet the next day and he got his first round of care, plus
+        a proper bath. It was an intense day and a big decision.
+        <span class="blink" style="color:#ffff00;">Best. Decision. Ever.</span>
+      </p>
+      <p class="t-pt">
+        Recebi um telefonema choroso em que ela relatava o coração partido pela imagem do cachorrinho que ela acahra.
+        Na hora eu falei que queria adotá-lo, dia <em>16 de outubro de 2024</em>, se não me engano. Ela o levou para um vet 
+        no dia seguinte e ele tomou o primieoro round de cuidados, além de um bom banho. Foi um dia intenso e uma decisão importante.
+        <span class="blink" style="color:#ffff00;">A. Melhor. Decisão. De. Todas.</span>
+      </p>
+
+      <p class="t-en">
+        That first day was also when he got his name: <em>Fourier</em>. Yes, after the French
+        mathematician Jean Baptiste Joseph Fourier. After all those years applying the Fourier
+        Transform in college for signal processing, I never imagined
+        <strong>the greatest transform of all would be Fourier's own life!</strong>
+      </p>
+      <p class="t-pt">
+        Nesse primeiro dia foi quando ele recebeu seu nome: <em>Fourier</em>. Sim, o do matemático francês Jean Baptiste Joseph Fourier.
+        Durante os anos em que passei aplicando a Transformada de Fourier na faculdade para processamento de sinais, nunca imaginei que
+        que <strong>a maior transformada de todas seria a vida de Fourier!</strong>
+      </p>
+
+      <div class="under-construction">
+        <span class="t-en">⚠️ &nbsp; MORE RESCUE PHOTOS COMING SOON — PAGE UNDER CONSTRUCTION &nbsp; ⚠️</span>
+        <span class="t-pt">⚠️ &nbsp; MAIS FOTOS DO RESGATE EM BREVE — PÁGINA EM CONSTRUÇÃO &nbsp; ⚠️</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DECO SEPARATOR -->
+  <div class="deco-row" style="color:#ff88ff; font-size:1.1em;">
+    <span class="spin">✦</span>
+    <span class="spin" style="animation-delay:.25s">✦</span>
+    <span class="spin" style="animation-delay:.5s">✦</span>
+    <span class="spin" style="animation-delay:.75s">✦</span>
+    <span class="spin" style="animation-delay:1s">✦</span>
+    <span class="spin" style="animation-delay:1.25s">✦</span>
+    <span class="spin" style="animation-delay:1.5s">✦</span>
+    <span class="spin" style="animation-delay:1.75s">✦</span>
+    <span class="spin" style="animation-delay:2s">✦</span>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════
+       CHAPTER 2 — ADAPTATION
+  ════════════════════════════════════════════ -->
+  <div class="dog-section section-adaptation">
+    <div class="section-header-bar">
+      🏡 &nbsp;
+      <span class="t-en">CHAPTER II &nbsp;·&nbsp; FINDING HOME</span>
+      <span class="t-pt">CAPÍTULO II &nbsp;·&nbsp; ENCONTRANDO O LAR</span>
+      &nbsp; 🏡
+    </div>
+    <div class="section-body">
+
+      <div class="gif-row">
+        <img src="https://www.cameronsworld.net/img/content/4/14.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/3/6.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/12/4.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/8/56.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/13/22.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/11/26.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/4/12.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/5/5.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+      </div>
+
+      <!-- LARGE PHOTO SLOT -->
+      <div class="photo-slot">
+        <div class="photo-icon">📸</div>
+        <div class="photo-label">
+          <span class="t-en">[ ADD FIRST-DAYS-HOME PHOTO HERE ]</span>
+          <span class="t-pt">[ ADICIONE A FOTO DOS PRIMEIROS DIAS EM CASA AQUI ]</span>
+        </div>
+        <div class="photo-hint">
+          <span class="t-en">Replace this div with: &lt;img src="your-photo.jpg" alt="settling in"&gt;</span>
+          <span class="t-pt">Substitua este div por: &lt;img src="sua-foto.jpg" alt="adaptação"&gt;</span>
+        </div>
+        <div class="photo-hint" style="margin-top:4px;">
+          <span class="t-en">Recommended: landscape, ~800×500 px</span>
+          <span class="t-pt">Recomendado: paisagem, ~800×500 px</span>
+        </div>
+      </div>
+
+      <p class="t-en">
+        The first few days were filled with gratitude. Even without knowing what to expect, Fourier
+        quickly turned out to be a very gentle and well-behaved dog.
+        <strong>Fourier</strong> approached every room with one paw at a time — cautious but curious.
+        <em>The spot under my office chair</em> was claimed by day two. No regrets.
+      </p>
+      <p class="t-pt">
+        Os primeiros dias foram de muita gratidão. Mesmo não sabendo o que esperar, o Fourier logo se mostrou
+        um cachorro muito dócil e comportado.<strong>[Fourier]</strong> entrava em cada cômodo uma patinha de 
+        cada vez — cauteloso mas curioso.  <em>O espaço embaixo da minha cadeira de escritório</em> foi 
+        conquistado no segundo dia. Sem arrependimentos.
+      </p>
+
+      <p class="t-en">
+        Slowly, the walls came down. His coat started growing back and his tail started wagging
+        more. Within the very first week he had settled by my side on the couch — something that
+        made me tear up. That was the moment we knew everything was going to be okay.
+        <span class="pulse" style="color:#ff0066;">❤️</span>
+      </p>
+      <p class="t-pt">
+        Aos poucos, as barreiras foram caindo. O pelo começou a crescer e o rabo começou a abanar mais. 
+        Logo na primeira semana ele se acomodou ao meu lado no sofá, coisa que me fez lacrimejar.
+        Foi aí que soubemos que tudo ia ficar bem. <span class="pulse" style="color:#ff0066;">❤️</span>
+      </p>
+
+      <p class="t-en">
+        As the fur grew and his personality emerged, we were delighted to find that our chow-chow
+        mix, despite his blue-stone tongue and teddy bear face, does little justice to his
+        ancestors' reputation. He may bark at whoever approaches the other side of the door, but
+        his primary form of aggression is the hypnotic and ceaseless wagging of his little tail.
+      </p>
+      <p class="t-pt">
+        Conforme o pelo cresceu e o temperamento se mostrou, notamos felizes que nosso chowchow viralata,
+        embora de língua rocha e cara de ursinho de pelúcia, faz pouco juz à fama de seus antepassados. Pode até
+        latir pra quem se aproxima do outro lado da porta, mas sua principal forma de agressão é o abano hipnóticop e incessante
+        do seu rabinho.
+      </p>
+
+      <div class="callout-box">
+        <span class="spin">🌟</span>
+        &nbsp;
+        <span class="rainbow-text t-en">FUN FACT:</span>
+        <span class="rainbow-text t-pt">CURIOSIDADE:</span>
+        &nbsp;
+        <em class="t-en" style="color:#dddddd;">Everyone thinks Fourier is below average in canine intellect. We love him just the way he is.</em>
+        <em class="t-pt" style="color:#dddddd;">Todo mundo acha que o Fourier tem um intelecto abaixo da média canina. Amamos ele como ele é</em>
+        &nbsp;
+        <span class="spin-rev">🌟</span>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="rainbow-bar">
+
+
+  <!-- ════════════════════════════════════════════
+       CHAPTER 3 — HEALTH ISSUES
+  ════════════════════════════════════════════ -->
+  <div class="dog-section section-health">
+    <div class="section-header-bar">
+      💊 &nbsp;
+      <span class="t-en">CHAPTER III &nbsp;·&nbsp; THE HEALTH JOURNEY</span>
+      <span class="t-pt">CAPÍTULO III &nbsp;·&nbsp; A JORNADA DE SAÚDE</span>
+      &nbsp; 💊
+    </div>
+    <div class="section-body">
+
+      <div class="gif-row">
+        <img src="https://www.cameronsworld.net/img/content/12/11.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/13/12.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/10/8.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/13/8.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/11/19.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/8/30.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/5/17.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/4/15.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+      </div>
+
+      <!-- LARGE PHOTO SLOT -->
+      <div class="photo-slot">
+        <div class="photo-icon">📸</div>
+        <div class="photo-label">
+          <span class="t-en">[ ADD HEALTH / VET PHOTO HERE ]</span>
+          <span class="t-pt">[ ADICIONE A FOTO DO VET / SAÚDE AQUI ]</span>
+        </div>
+        <div class="photo-hint">
+          <span class="t-en">Replace this div with: &lt;img src="your-photo.jpg" alt="health journey"&gt;</span>
+          <span class="t-pt">Substitua este div por: &lt;img src="sua-foto.jpg" alt="jornada de saúde"&gt;</span>
+        </div>
+        <div class="photo-hint" style="margin-top:4px;">
+          <span class="t-en">Recommended: landscape, ~800×500 px</span>
+          <span class="t-pt">Recomendado: paisagem, ~800×500 px</span>
+        </div>
+      </div>
+
+      <p class="t-en">
+        Not everything was smooth sailing. After the rescue, Fourier went through a full round of
+        vaccinations and tests. Thankfully nothing dramatic, but quite a bit of money and emotion
+        went into his treatments over the months as he fully settled into his new routine.
+      </p>
+      <p class="t-pt">
+        Nem tudo foi mar de rosas. Após o resgate, Fourier passou por toda uma rodada de vacinações e exames.
+        Felizmente nada dramático, mas bastante dinheiro e emoção foram dispostas aos seus tratamentos ao
+        longos dos meses para que se adaptasse totalmente à nova rotina.
+      </p>
+
+      <p class="t-en">
+        For starters, phosphate crystals were forming in his bladder. We tried several therapeutic
+        diets, and after many months and many urine samples, we landed on a final solution:
+        <em>home-cooked meals!</em> Yes, Fourier has a private chef — me.
+        <span class="blink" style="color:#ffaa00;">Total fighter spirit.</span>
+        <span class="new-badge">NEW</span>
+      </p>
+      <p class="t-pt">
+        A começar, cristais de fósforo estavam se formando em sua bechiga. Tentamos diversas raçoes terapeuticas, e, 
+        apoś muitos meses e muitas coletas de urina, chegamos a uma solução final: <em>comida feita me casa!</em>. Sim, o
+        Fourier tem um cozinheiro particular (eu).
+        <span class="blink" style="color:#ffaa00;">Baita dum mimado.</span>
+        <span class="new-badge">NEW</span>
+      </p>
+
+      <p class="t-en">
+        He also had issues with skin fungus. Many sores marked his coat before we could identify
+        the cause and find a treatment. Today, Fourier gets several baths a month at home with
+        antifungal shampoo. <em>It's a lot of work!</em>
+      </p>
+      <p class="t-pt">
+        Também teve problemas com fungus na pele. Muitas feridas marcaram sua pelugem até
+        que conseguimos descobrir a causa e tratamento. Hoje, Fourier toma vários banhos
+        mensais em casa com shampoo anti fungal. <em>Dá trabalho!</em>
+      </p>
+
+      <div class="callout-box" style="border-color:#ffaa00; background:rgba(255,170,0,0.06); color:#ffcc66;">
+        <strong style="color:#ffaa00;" class="t-en">Current status:</strong>
+        <strong style="color:#ffaa00;" class="t-pt">Status atual:</strong>
+        <em class="t-en" style="color:#dddddd; margin-left:6px;">[e.g. "Doing great on daily medication" / "Fully recovered!" / "Ongoing management with regular check-ups"]</em>
+        <em class="t-pt" style="color:#dddddd; margin-left:6px;">[ex: "Indo muito bem com a medicação diária" / "Totalmente recuperado!" / "Gerenciamento contínuo com check-ups regulares"]</em>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DECO SEPARATOR -->
+  <div class="deco-row" style="color:#ffdd44;">
+    <span class="float">🌟</span><span class="bounce">⭐</span>
+    <span class="float">🌟</span><span class="bounce">⭐</span>
+    <span class="float">🌟</span><span class="bounce">⭐</span>
+    <span class="float">🌟</span><span class="bounce">⭐</span>
+    <span class="float">🌟</span><span class="bounce">⭐</span>
+    <span class="float">🌟</span>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════
+       CHAPTER 4 — CURRENT DAY
+  ════════════════════════════════════════════ -->
+  <div class="dog-section section-current">
+    <div class="section-header-bar">
+      🌈 &nbsp;
+      <span class="t-en">CHAPTER IV &nbsp;·&nbsp; LIFE TODAY</span>
+      <span class="t-pt">CAPÍTULO IV &nbsp;·&nbsp; A VIDA HOJE</span>
+      &nbsp; 🌈
+    </div>
+    <div class="section-body">
+
+      <div class="gif-row">
+        <img src="https://www.cameronsworld.net/img/content/8/1.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/7/24.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/13/2.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/8/64.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/10/18.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/6/15.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/13/23.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+        <img src="https://www.cameronsworld.net/img/content/13/18.gif"   class="gif-img" alt="" onerror="this.style.display='none'">
+      </div>
+
+      <!-- LARGE PHOTO SLOT -->
+      <div class="photo-slot">
+        <div class="photo-icon">📸</div>
+        <div class="photo-label">
+          <span class="t-en">[ ADD MOST RECENT PHOTO HERE ]</span>
+          <span class="t-pt">[ ADICIONE A FOTO MAIS RECENTE AQUI ]</span>
+        </div>
+        <div class="photo-hint">
+          <span class="t-en">Replace this div with: &lt;img src="your-photo.jpg" alt="today"&gt;</span>
+          <span class="t-pt">Substitua este div por: &lt;img src="sua-foto.jpg" alt="hoje"&gt;</span>
+        </div>
+        <div class="photo-hint" style="margin-top:4px;">
+          <span class="t-en">Recommended: landscape, ~800×500 px</span>
+          <span class="t-pt">Recomendado: paisagem, ~800×500 px</span>
+        </div>
+      </div>
+
+      <p class="t-en">
+        Today, <strong>Fourier</strong> is living his absolute best life.
+        He loves <em>morning walks and chasing shadows he's convinced are opossums</em>,
+        and has a deep, unshakeable passion for <em>his little home-cooked meal containers</em>.
+        He carries on with his dog life on a predictable routine, surrounded by plenty of
+        affection from everyone around him.
+      </p>
+      <p class="t-pt">
+        Hoje, <strong>Fourier</strong> está vivendo a melhor vida possível.
+        Ama <em> caminhadas matinais e correr atrás de vultos que ele acha que são gambás</em>
+        e tem uma paixão profunda e inabalável por <em>suas marmitinhas de comida caseira</em>. 
+        Segue sua vidinha de cachorro tendo uma rotina previsível e muito afeto de quem está por perto.
+      </p>
+
+      <p class="t-en">
+        Fourier turns heads on the street — everyone wants to pet him and asks about him, but he's
+        a bit of a snob and doesn't always pay attention. We hope he keeps right on wagging his
+        tail and doing his dog things for a very long time.
+      </p>
+      <p class="t-pt">
+        Fourier chama muita atenção nma rua, todos querem fazer carinho e me perguntam dele, mas ele é
+        um pouco metido e nem sempre dá atenção. Esperamos que ele continue aqui abanando seu rabo e fazendo
+        suas cachorrices por muito tempo.
+      </p>
+
+      <div class="callout-box" style="border-color:#33aaff; background:rgba(0,120,255,0.07); color:#88ccff;">
+        <span class="rainbow-text t-en">★ FOREVER AND ALWAYS THE BEST DOG ★</span>
+        <span class="rainbow-text t-pt">★ PARA SEMPRE E SEMPRE O MELHOR CÃO ★</span>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="rainbow-bar">
+
+  <!-- ═══ GUESTBOOK ═══ -->
+  <div class="guestbook-box">
+    <h3>
+      <span class="spin">★</span>
+      &nbsp;
+      <span class="t-en">SIGN THE GUESTBOOK!</span>
+      <span class="t-pt">ASSINE O LIVRO DE VISITAS!</span>
+      &nbsp;
+      <span class="spin-rev">★</span>
+    </h3>
+    <p>
+      <span class="t-en">Did you enjoy reading about <strong style="color:#ffff00;">Fourier</strong>? Leave a message below — we'd love to hear from you! 🐾</span>
+      <span class="t-pt">Gostou de ler sobre <strong style="color:#ffff00;">[Fourier]</strong>? Deixe uma mensagem abaixo — adoraríamos ouvir de você! 🐾</span>
+    </p>
+    <p style="margin-top:8px; color:#555;">
+      <em class="t-en">[Link to guestbook service, e.g. 123guestbook.com — or replace with a contact form]</em>
+      <em class="t-pt">[Link para serviço de livro de visitas — ou substitua por um formulário de contato]</em>
+    </p>
+  </div>
+
+  <!-- ═══ BOTTOM MARQUEE ═══ -->
+  <marquee class="t-en" behavior="scroll" direction="right" scrollamount="3">
+    🐾 Thank you for visiting!! &nbsp;&nbsp;
+    🦴 Woof Woof Woof 🦴 &nbsp;&nbsp;
+    ⭐ Come back soon! ⭐ &nbsp;&nbsp;
+    🐾 Fourier says hi!! &nbsp;&nbsp;
+    💕 Best dog ever 💕 &nbsp;&nbsp;
+    🐾 Thank you for visiting!! &nbsp;&nbsp;
+  </marquee>
+  <marquee class="t-pt" behavior="scroll" direction="right" scrollamount="3">
+    🐾 Obrigado pela visita!! &nbsp;&nbsp;
+    🦴 Au Au Au 🦴 &nbsp;&nbsp;
+    ⭐ Volte sempre! ⭐ &nbsp;&nbsp;
+    🐾 [Fourier] manda beijos!! &nbsp;&nbsp;
+    💕 Melhor cachorro do mundo 💕 &nbsp;&nbsp;
+    🐾 Obrigado pela visita!! &nbsp;&nbsp;
+  </marquee>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="site-footer">
+    <div class="footer-badges">
+      <span class="badge" style="color:#ff8800;">Netscape 4.0</span>
+      <span class="badge" style="color:#00ff00;">800×600 Optimized</span>
+      <span class="badge" style="color:#ff00ff;">Made with ❤️ & HTML</span>
+      <span class="badge" style="color:#00ffff;">Dog Approved ✓</span>
+      <span class="badge t-en" style="color:#ffff00;">No Cats Allowed</span>
+      <span class="badge t-pt" style="color:#ffff00;">Gatos Não Permitidos</span>
+    </div>
+    <p style="margin:10px 0 4px;">
+      <span class="rainbow-text">★&nbsp; FOURIER FOREVER &nbsp;★</span>
+    </p>
+    <p>
+      <span class="t-en">This page is best viewed in <strong style="color:#888;">Netscape Navigator 4.0</strong> at <strong style="color:#888;">800×600</strong> resolution.</span>
+      <span class="t-pt">Esta página é melhor visualizada no <strong style="color:#888;">Netscape Navigator 4.0</strong> em resolução <strong style="color:#888;">800×600</strong>.</span>
+      <br>
+      <span class="t-en" style="color:#444; font-size:0.9em;">© 2026 — All wags reserved. No unauthorised belly rubs.</span>
+      <span class="t-pt" style="color:#444; font-size:0.9em;">© 2026 — Todos os abanões reservados. Sem carinhos não autorizadas.</span>
+    </p>
+    <p style="margin-top:12px;">
+      <a href="/">
+        <span class="t-en">← Back to pedro.boueke.com</span>
+        <span class="t-pt">← Voltar para pedro.boueke.com</span>
+      </a>
+    </p>
+  </div>
+
+</div><!-- /.page-wrapper -->
+
+<script>
+  var TITLES = {
+    en: "\u2605~*~ Fourier's Page ~*~\u2605 Best Dog Ever!!!",
+    pt: "\u2605~*~ P\u00e1gina do Fourier ~*~\u2605 Melhor Cachorro do Mundo!!"
+  };
+
+  function setLang(lang) {
+    document.body.classList.remove('lang-en', 'lang-pt');
+    document.body.classList.add('lang-' + lang);
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+
+    var url = new URL(window.location.href);
+    url.searchParams.set('lang', lang);
+    history.pushState({ lang: lang }, '', url.toString());
+
+    document.querySelectorAll('.lang-btn').forEach(function (b) { b.classList.remove('active'); });
+    var btn = document.getElementById('flag-' + lang);
+    if (btn) btn.classList.add('active');
+
+    document.title = TITLES[lang] || TITLES.en;
+  }
+
+  /* Initialise from URL param on load */
+  (function () {
+    var lang = new URLSearchParams(location.search).get('lang') === 'pt' ? 'pt' : 'en';
+    setLang(lang);
+  }());
+</script>
+</body>
+</html>
