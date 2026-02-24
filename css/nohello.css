@@ -1,0 +1,115 @@
+body {
+  justify-content: flex-start;
+  text-align: left;
+  padding: 3rem 2rem 6rem;
+}
+
+header {
+  width: 100%;
+  max-width: 640px;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--color-text);
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  font-style: italic;
+  margin-top: 0.4rem;
+}
+
+main {
+  width: 100%;
+  max-width: 640px;
+}
+
+main p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
+  color: var(--color-text);
+}
+
+main h2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin: 2.25rem 0 0.75rem;
+}
+
+.example-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.example {
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.example.bad {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-left: 3px solid #999;
+}
+
+.example.good {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-left: 3px solid var(--color-text);
+}
+
+.example .label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.example .msg {
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+  white-space: pre-wrap;
+}
+
+.example.bad .label { color: #888; }
+.example.good .label { color: var(--color-text); }
+
+hr {
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  margin: 2.5rem 0;
+}
+
+.share-url {
+  display: inline-block;
+  margin-top: 0.25rem;
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  background: rgba(0,0,0,0.05);
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.3rem;
+  user-select: all;
+}

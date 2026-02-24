@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Hello — Pedro Boueke</title>
+  <meta name="description" content="How to write async messages that respect everyone's time.">
+  <meta property="og:title" content="No Hello">
+  <meta property="og:description" content="How to write async messages that respect everyone's time.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/nohello.css">
+  <script src="js/common.js" defer></script>
+</head>
+<body>
+  <header>
+    <a href="/" class="back-link">← Pedro Boueke</a>
+    <h1>No Hello</h1>
+    <p class="subtitle">Please don't just say "hi" and wait.</p>
+  </header>
+
+  <main>
+    <p>
+      When you send someone a message that is only a greeting — "Hi", "Hey", "Hello there" — and then wait for them to reply before explaining why you're reaching out, you create unnecessary friction. In a synchronous conversation this is fine; in an asynchronous one (chat, email, DMs) it forces two round-trips where one would do.
+    </p>
+
+    <p>
+      The other person sees your "Hi", has to stop what they are doing, think about who you are and what you might need, type a reply, and then <em>wait</em> — doing nothing productive — until you respond with the actual question. That is time wasted for both of you.
+    </p>
+
+    <h2>The pattern to avoid</h2>
+
+    <div class="example-pair">
+      <div class="example bad">
+        <div class="label">You</div>
+        <div class="msg">Hey!</div>
+      </div>
+      <div class="example bad">
+        <div class="label">Them — now stuck waiting</div>
+        <div class="msg">Hey, what's up?</div>
+      </div>
+      <div class="example bad">
+        <div class="label">You — finally, the point</div>
+        <div class="msg">I had a question about the API docs. Is now a good time?</div>
+      </div>
+      <div class="example bad">
+        <div class="label">Them — another wasted turn</div>
+        <div class="msg">Sure, go ahead</div>
+      </div>
+      <div class="example bad">
+        <div class="label">You — the actual question, at last</div>
+        <div class="msg">Does the /users endpoint support pagination?</div>
+      </div>
+    </div>
+
+    <p>
+      That exchange took five messages and potentially hours of elapsed time. The other person was interrupted twice before they could actually help.
+    </p>
+
+    <h2>The better way</h2>
+
+    <p>
+      Lead with the complete context. Greeting, question, and all relevant details in one message. The other person can then read it on their own schedule and reply with a useful answer immediately — no volleyball required.
+    </p>
+
+    <div class="example-pair">
+      <div class="example good">
+        <div class="label">You — everything in one shot</div>
+        <div class="msg">Hey! Quick question about the API docs: does the /users endpoint support pagination? I'm building a list view and need to know if I should handle it client-side. Thanks!</div>
+      </div>
+      <div class="example good">
+        <div class="label">Them — can reply fully, right away</div>
+        <div class="msg">Yes — it uses cursor-based pagination. Pass `cursor` and `limit` as query params. The response includes a `next_cursor` field when there are more results.</div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>A few principles</h2>
+
+    <p>
+      <strong>Don't ask to ask.</strong> "Can I ask you something?" and "Do you have a minute?" are the same problem as a bare "Hello". Just ask. If the person is unavailable they will answer when they can.
+    </p>
+
+    <p>
+      <strong>Include enough context to be actionable.</strong> Think about what the other person needs to know to give you a useful answer: what you are trying to do, what you have already tried, and what specific decision or blocker you need help with.
+    </p>
+
+    <p>
+      <strong>Async is not synchronous.</strong> Treat every message as if the other person might not see it for two hours. Would your message still make sense? Could they reply without needing to ask a clarifying question first?
+    </p>
+
+    <p>
+      <strong>Respect is the point.</strong> None of this is about being cold or skipping pleasantries. A warm, considerate message that also includes your question upfront is ideal. The greeting is fine — it's the <em>pause</em> that is the problem.
+    </p>
+
+    <hr>
+
+    <p>
+      If someone sends you here, they are not being rude. They are asking you to help make the conversation more efficient for both of you. Share this page with anyone who might benefit:
+    </p>
+    <span class="share-url">pedro.boueke.com/nohello</span>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Pedro Boueke</p>
+  </footer>
+</body>
+</html>
