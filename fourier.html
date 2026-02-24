@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>★~*~ Fourier's Page ~*~★ Best Dog Ever!!!</title>
+  <link rel="icon" href="img/fourier/favicon.jpeg" type="image/jpeg">
   <style>
     /* ============================================================
        BASE & BACKGROUND — dark starfield + noise texture
@@ -172,19 +173,36 @@
     }
     .site-subtitle { color: #00ffff; font-size: 1.1em; margin-bottom: 10px; font-style: italic; }
 
-    /* VISITOR COUNTER */
-    .counter-area  { margin: 12px auto 0; display: inline-block; }
-    .counter-label { color: #888; font-size: 0.8em; display: block; margin-bottom: 3px; }
-    .counter-digits {
-      display: inline-block;
-      background: #000;
-      border: 3px inset #666;
-      padding: 4px 14px;
-      color: #ff4400;
-      font-family: 'Courier New', monospace;
-      font-size: 1.5em;
-      font-weight: bold;
-      letter-spacing: 5px;
+    /* HEADER PHOTO */
+    .header-photo {
+      width: 200px;
+      height: 200px;
+      margin: 16px auto 0;
+      border: 4px ridge #ff00ff;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(255,255,255,0.025) 0px,
+          rgba(255,255,255,0.025) 2px,
+          transparent 2px,
+          transparent 14px
+        ),
+        #0a0a22;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #444;
+      text-align: center;
+      font-size: 0.8em;
+      overflow: hidden;
+    }
+    .header-photo img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      display: block;
     }
 
     /* ============================================================
@@ -277,7 +295,7 @@
     .section-adaptation .photo-slot .photo-label { color: #00ffcc; }
     .section-health     .photo-slot .photo-label { color: #ffaa00; }
     .section-current    .photo-slot .photo-label { color: #33aaff; }
-    .photo-slot img { width: 100%; max-height: 440px; object-fit: cover; display: block; }
+    .photo-slot img { width: 100%; max-height: auto; object-fit: cover; display: block; }
 
     /* ============================================================
        PARAGRAPHS
@@ -398,14 +416,14 @@
   <marquee class="t-en" behavior="scroll" direction="left" scrollamount="4">
     ★ WELCOME TO FOURIER'S OFFICIAL HOMEPAGE ★
     &nbsp;&nbsp;🐾 THE BEST DOG IN THE ENTIRE WORLD 🐾&nbsp;&nbsp;
-    ★ LAST UPDATED: [DATE] ★&nbsp;&nbsp;
+    ★ LAST UPDATED: 2026-02-24 ★&nbsp;&nbsp;
     🦴 WUF WUF WUF 🦴&nbsp;&nbsp;
     ★ SIGN THE GUESTBOOK BELOW!! ★
   </marquee>
   <marquee class="t-pt" behavior="scroll" direction="left" scrollamount="4">
     ★ BEM-VINDO À PÁGINA OFICIAL DO FOURIER ★
     &nbsp;&nbsp;🐾 O MELHOR CÃO DO MUNDO INTEIRO 🐾&nbsp;&nbsp;
-    ★ ÚLTIMA ATUALIZAÇÃO: [DATA] ★&nbsp;&nbsp;
+    ★ ÚLTIMA ATUALIZAÇÃO: 2026-02-24 ★&nbsp;&nbsp;
     🦴 AUF AUF AUF 🦴&nbsp;&nbsp;
     ★ ASSINE O LIVRO DE VISITAS!! ★
   </marquee>
@@ -434,10 +452,8 @@
       <span class="blink t-pt">✨ PÁGINA ATUALIZADA COM NOVAS FOTOS!! ✨</span>
     </p>
 
-    <div class="counter-area">
-      <span class="counter-label t-en">you are visitor number</span>
-      <span class="counter-label t-pt">você é o visitante número</span>
-      <span class="counter-digits">0 0 0 0 0 1</span>
+    <div class="header-photo">
+      <img src="img/fourier/0.jpeg" alt="Fourier">
     </div>
   </div>
 
@@ -499,21 +515,17 @@
       </div>
 
       <!-- LARGE PHOTO SLOT -->
-      <div class="photo-slot">
-        <div class="photo-icon">📸</div>
-        <div class="photo-label">
-          <span class="t-en">[ ADD RESCUE PHOTO HERE ]</span>
-          <span class="t-pt">[ ADICIONE A FOTO DO RESGATE AQUI ]</span>
-        </div>
-        <div class="photo-hint">
-          <span class="t-en">Replace this div with: &lt;img src="your-photo.jpg" alt="rescue day"&gt;</span>
-          <span class="t-pt">Substitua este div por: &lt;img src="sua-foto.jpg" alt="dia do resgate"&gt;</span>
-        </div>
-        <div class="photo-hint" style="margin-top:4px;">
-          <span class="t-en">Recommended: landscape, ~800×500 px</span>
-          <span class="t-pt">Recomendado: paisagem, ~800×500 px</span>
-        </div>
-      </div>
+      <div class="photo-slot" style="
+        --img-w:  100%;
+        --img-h:  100%;
+        --img-x:  center;
+        --img-y:  2px;
+        min-height: 600px;
+        background-image:    url('img/fourier/1.jpeg');
+        background-size:     var(--img-w) var(--img-h);
+        background-position: var(--img-x) var(--img-y);
+        background-repeat:   no-repeat;
+      "></div>
 
       <p class="t-en">
         It was a <em>hot</em> day in <em>2024</em> when
@@ -603,21 +615,17 @@
       </div>
 
       <!-- LARGE PHOTO SLOT -->
-      <div class="photo-slot">
-        <div class="photo-icon">📸</div>
-        <div class="photo-label">
-          <span class="t-en">[ ADD FIRST-DAYS-HOME PHOTO HERE ]</span>
-          <span class="t-pt">[ ADICIONE A FOTO DOS PRIMEIROS DIAS EM CASA AQUI ]</span>
-        </div>
-        <div class="photo-hint">
-          <span class="t-en">Replace this div with: &lt;img src="your-photo.jpg" alt="settling in"&gt;</span>
-          <span class="t-pt">Substitua este div por: &lt;img src="sua-foto.jpg" alt="adaptação"&gt;</span>
-        </div>
-        <div class="photo-hint" style="margin-top:4px;">
-          <span class="t-en">Recommended: landscape, ~800×500 px</span>
-          <span class="t-pt">Recomendado: paisagem, ~800×500 px</span>
-        </div>
-      </div>
+      <div class="photo-slot" style="
+        --img-w:  100%;
+        --img-h:  100%;
+        --img-x:  center;
+        --img-y:  2px;
+        min-height: 500px;
+        background-image:    url('img/fourier/2.jpeg');
+        background-size:     var(--img-w) var(--img-h);
+        background-position: var(--img-x) var(--img-y);
+        background-repeat:   no-repeat;
+      "></div>
 
       <p class="t-en">
         The first few days were filled with gratitude. Even without knowing what to expect, Fourier
@@ -699,21 +707,17 @@
       </div>
 
       <!-- LARGE PHOTO SLOT -->
-      <div class="photo-slot">
-        <div class="photo-icon">📸</div>
-        <div class="photo-label">
-          <span class="t-en">[ ADD HEALTH / VET PHOTO HERE ]</span>
-          <span class="t-pt">[ ADICIONE A FOTO DO VET / SAÚDE AQUI ]</span>
-        </div>
-        <div class="photo-hint">
-          <span class="t-en">Replace this div with: &lt;img src="your-photo.jpg" alt="health journey"&gt;</span>
-          <span class="t-pt">Substitua este div por: &lt;img src="sua-foto.jpg" alt="jornada de saúde"&gt;</span>
-        </div>
-        <div class="photo-hint" style="margin-top:4px;">
-          <span class="t-en">Recommended: landscape, ~800×500 px</span>
-          <span class="t-pt">Recomendado: paisagem, ~800×500 px</span>
-        </div>
-      </div>
+      <div class="photo-slot" style="
+        --img-w:  100%;
+        --img-h:  100%;
+        --img-x:  center;
+        --img-y:  2px;
+        min-height: 400px;
+        background-image:    url('img/fourier/3.jpeg');
+        background-size:     var(--img-w) var(--img-h);
+        background-position: var(--img-x) var(--img-y);
+        background-repeat:   no-repeat;
+      "></div>
 
       <p class="t-en">
         Not everything was smooth sailing. After the rescue, Fourier went through a full round of
@@ -755,8 +759,8 @@
       <div class="callout-box" style="border-color:#ffaa00; background:rgba(255,170,0,0.06); color:#ffcc66;">
         <strong style="color:#ffaa00;" class="t-en">Current status:</strong>
         <strong style="color:#ffaa00;" class="t-pt">Status atual:</strong>
-        <em class="t-en" style="color:#dddddd; margin-left:6px;">[e.g. "Doing great on daily medication" / "Fully recovered!" / "Ongoing management with regular check-ups"]</em>
-        <em class="t-pt" style="color:#dddddd; margin-left:6px;">[ex: "Indo muito bem com a medicação diária" / "Totalmente recuperado!" / "Gerenciamento contínuo com check-ups regulares"]</em>
+        <em class="t-en" style="color:#dddddd; margin-left:6px;">Very healthy with ongoing management with regular check-ups</em>
+        <em class="t-pt" style="color:#dddddd; margin-left:6px;">Saudável e seguindo com gerenciamento contínuo com check-ups regulares</em>
       </div>
 
     </div>
@@ -797,21 +801,17 @@
       </div>
 
       <!-- LARGE PHOTO SLOT -->
-      <div class="photo-slot">
-        <div class="photo-icon">📸</div>
-        <div class="photo-label">
-          <span class="t-en">[ ADD MOST RECENT PHOTO HERE ]</span>
-          <span class="t-pt">[ ADICIONE A FOTO MAIS RECENTE AQUI ]</span>
-        </div>
-        <div class="photo-hint">
-          <span class="t-en">Replace this div with: &lt;img src="your-photo.jpg" alt="today"&gt;</span>
-          <span class="t-pt">Substitua este div por: &lt;img src="sua-foto.jpg" alt="hoje"&gt;</span>
-        </div>
-        <div class="photo-hint" style="margin-top:4px;">
-          <span class="t-en">Recommended: landscape, ~800×500 px</span>
-          <span class="t-pt">Recomendado: paisagem, ~800×500 px</span>
-        </div>
-      </div>
+      <div class="photo-slot" style="
+        --img-w:  100%;
+        --img-h:  100%;
+        --img-x:  center;
+        --img-y:  2px;
+        min-height: 400px;
+        background-image:    url('img/fourier/4.jpeg');
+        background-size:     var(--img-w) var(--img-h);
+        background-position: var(--img-x) var(--img-y);
+        background-repeat:   no-repeat;
+      "></div>
 
       <p class="t-en">
         Today, <strong>Fourier</strong> is living his absolute best life.
@@ -849,7 +849,7 @@
   <hr class="rainbow-bar">
 
   <!-- ═══ GUESTBOOK ═══ -->
-  <div class="guestbook-box">
+  <!--<div class="guestbook-box">
     <h3>
       <span class="spin">★</span>
       &nbsp;
@@ -866,7 +866,7 @@
       <em class="t-en">[Link to guestbook service, e.g. 123guestbook.com — or replace with a contact form]</em>
       <em class="t-pt">[Link para serviço de livro de visitas — ou substitua por um formulário de contato]</em>
     </p>
-  </div>
+  </div>-->
 
   <!-- ═══ BOTTOM MARQUEE ═══ -->
   <marquee class="t-en" behavior="scroll" direction="right" scrollamount="3">
@@ -900,8 +900,8 @@
       <span class="rainbow-text">★&nbsp; FOURIER FOREVER &nbsp;★</span>
     </p>
     <p>
-      <span class="t-en">This page is best viewed in <strong style="color:#888;">Netscape Navigator 4.0</strong> at <strong style="color:#888;">800×600</strong> resolution.</span>
-      <span class="t-pt">Esta página é melhor visualizada no <strong style="color:#888;">Netscape Navigator 4.0</strong> em resolução <strong style="color:#888;">800×600</strong>.</span>
+      <span class="t-en">This page is best viewed in <strong style="color:#888;">Netscape Navigator 4.0</strong> at <strong style="color:#888;">800×600</strong> resolution. Big thanks to <a href="https://www.cameronsworld.net/">cameronsworld</a>!</span>
+      <span class="t-pt">Esta página é melhor visualizada no <strong style="color:#888;">Netscape Navigator 4.0</strong> em resolução <strong style="color:#888;">800×600</strong>. Agradecimentos a <a href="https://www.cameronsworld.net/">cameronsworld</a>!</span>
       <br>
       <span class="t-en" style="color:#444; font-size:0.9em;">© 2026 — All wags reserved. No unauthorised belly rubs.</span>
       <span class="t-pt" style="color:#444; font-size:0.9em;">© 2026 — Todos os abanões reservados. Sem carinhos não autorizadas.</span>
