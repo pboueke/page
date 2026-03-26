@@ -109,30 +109,45 @@
   font-size: 1.125rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
+  text-transform: uppercase;;
+  color: #999;
   margin-bottom: 1rem;
 }
 
 .highlight-list {
   list-style: none;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.highlight-list li {
+  color: #555;
 }
 
 .highlight-list a {
-  display: block;
-  padding: 0.625rem 1rem;
-  border-radius: 0.5rem;
-  color: var(--color-link);
+  color: #555;
   text-decoration: none;
   font-weight: 500;
-  border: 1px solid var(--color-text-muted);
-  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+@keyframes rainbow {
+  0% { color: #ff0000; }
+  16% { color: #ff8800; }
+  33% { color: #ffff00; }
+  50% { color: #00cc00; }
+  66% { color: #0088ff; }
+  83% { color: #8800ff; }
+  100% { color: #ff0000; }
 }
 
 .highlight-list a:hover {
-  background-color: var(--color-text);
-  color: var(--color-bg);
+  text-decoration: underline;
+  animation: rainbow 1.5s linear infinite;
+}
+
+.highlight-desc {
+  font-style: italic;
+  color: #555;
 }
